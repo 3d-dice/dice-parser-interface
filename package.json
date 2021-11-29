@@ -38,6 +38,6 @@
 	],
 	"main": "./src/index",
 	"dependencies": {
-		"@3d-dice/dice-roller-parser": "^0.1.9"
+		"@3d-dice/dice-roller-parser": "^0.2.3"
 	}
 }
