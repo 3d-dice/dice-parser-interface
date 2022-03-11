@@ -102,85 +102,78 @@ class ParserInterface {
 							return roll == target;
 					}
 				}
+				const rollIds = group.rolls.map(roll => roll.rollId)
+				const alreadyReRolled = (id) => {
+					// if the incremented id exists in the group then this die has been processed previously
+					const increment = this.incrementId(id)
+					return rollIds.includes(increment)
+				}
 				group.mods.forEach(mod => {
-					// console.log(`modType`, mod.type)
-					// console.log(`mod`, mod)
 					// TODO: handle each type of mod that would trigger a reroll
 					const rollsCopy = {...group.rolls}
 					switch(mod.type){
 						case "explode":
 						case "compound":
-							// console.log(`adding '${mod.type}' reroll`)
 							// for compound: the additional rolls for each dice are added together as a single "roll" (calculated by the parser)
-							//TODO: discovered that there's a bug in "dice-roller-parser" for compounded rolls. May have to switch to my local fork if PR is not accepted
-							
-							Object.entries(rollsCopy).forEach(([key, value]) => {
-								const max = value.sides
-								const target = mod.target?.value?.value || max
+							Object.entries(rollsCopy).forEach(([key, die]) => {
+								const max = die.sides
+								const target = mod.target?.die?.value || max
 								const op = mod.target?.mod || '>'
-								if(successTest(value.result, op, target) && !value.modifier) {
-									group.rolls[key].modifier = mod.type
+								if(successTest(die.value, op, target) && !alreadyReRolled(die.rollId)) {
 									rerolls.push({
 										groupId,
-										rollId: this.incrementId(value.rollId),
-										sides: value.sides,
+										rollId: this.incrementId(die.rollId),
+										sides: die.sides,
 										qty: 1
 									})
 								}
 							})
 							break;
 						case "penetrate":
-							// console.log("adding 'penetrate' reroll")
 							// if die = max then it explodes, but -1 on explode result (calculated by the parser)
 							// ! Turning this into a future feature or option "HackMaster: true" - option for plugin or override
 							// if die is d20 and explodes then it's followed by a d6
 							// if die is d100 and explodes then it's followed by a d20
 							// this gets complicated for d100 and d20 rerolls
 							// d20 explode triggers a d6. The parser will parse extra die value as a d20 and not a d6. So the value as float is incorrect. Same for d100. Need to do some extra math. Would want to convert the value here, perhaps with a flag on the reroll
-							Object.entries(rollsCopy).forEach(([key, value]) => {
-								// console.log(`mod`, mod)
-								// console.log(`mod.target`, mod.target)
-								const max = value.sides
+							// TODO: explosions beyond the first are being dropped, probably because their value has been decremented by 1 and no longer register as meeting the explode success criteria
+							Object.entries(rollsCopy).forEach(([key, die]) => {
+								const max = die.sides
 								const target = mod.target?.value?.value || max
 								const op = mod.target?.mod || '='
-								if(successTest(value.result, op, target) && !value.modifier) {
-									group.rolls[key].modifier = mod.type
+								if(successTest(die.value, op, target) && !alreadyReRolled(die.rollId)) {
 									rerolls.push({
 										groupId,
-										rollId: this.incrementId(value.rollId),
-										// sides: value.sides === 100 ? 20 : value.sides === 20 ? 6 : value.sides,
-										sides: value.sides,
+										rollId: this.incrementId(die.rollId),
+										// sides: die.sides === 100 ? 20 : die.sides === 20 ? 6 : die.sides,
+										sides: die.sides,
 										qty: 1
 									})
 								}
 							})
 							break;
 						case "reroll":
-							// console.log("adding 'reroll' reroll")
-							Object.entries(rollsCopy).forEach(([key, value]) => {
-								const max = value.sides
-								if(successTest(value.result, mod.target.mod, mod.target.value.value)  && !value.modifier) {
-									group.rolls[key].modifier = mod.type
+							Object.entries(rollsCopy).forEach(([key, die]) => {
+								const max = die.sides
+								if(successTest(die.value, mod.target.mod, mod.target.value.value)  && !alreadyReRolled(die.rollId)) {
 									rerolls.push({
 										groupId,
-										rollId: this.incrementId(value.rollId),
-										sides: value.sides,
+										rollId: this.incrementId(die.rollId),
+										sides: die.sides,
 										qty: 1
 									})
 								}
 							})
 							break;
 						case "rerollOnce":
-							// console.log("adding 'rerollOnce' reroll")
-							Object.entries(rollsCopy).forEach(([key, value]) => {
+							Object.entries(rollsCopy).forEach(([key, die]) => {
 								const target = mod.target?.value?.value
 								const op = mod.target.mod
-								if(successTest(value.result, op, target)  && !value.modifier && !key.includes(".")) {
-									group.rolls[key].modifier = mod.type
+								if(successTest(die.value, op, target)  && !alreadyReRolled(die.rollId) && !die.rollId.toString().includes(".")) {
 									rerolls.push({
 										groupId,
-										rollId: this.incrementId(value.rollId),
-										sides: value.sides,
+										rollId: this.incrementId(die.rollId),
+										sides: die.sides,
 										qty: 1
 									})
 								}
@@ -195,12 +188,13 @@ class ParserInterface {
 	}
 
 	parseFinalResults(rollResults = []) {
+
 		// do the final parse
 		const rolls = this.recursiveSearch(rollResults,'rolls')
 		rolls.forEach(roll => {
-			return Object.entries(roll).forEach(([key, value]) => {
-				const sides = value.sides
-				this.rollsAsFloats.push((value.result - 1)/sides)
+			return Object.entries(roll).forEach(([key, die]) => {
+				const sides = die.sides
+				this.rollsAsFloats.push((die.value - 1)/sides)
 			})
 		})
 
