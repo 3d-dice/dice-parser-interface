@@ -4,7 +4,7 @@
 		"name": "Frank Ali"
 	},
 	"description": "a Fantastic Dice Parser (FDP) that parses roll20 format strings using @3d-dice/dice_roller and interfaces with @3d-dice/dice-box",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"keywords": [
 		"dice",
 		"dice-box",
@@ -38,6 +38,6 @@
 	],
 	"main": "./src/index",
 	"dependencies": {
-		"@3d-dice/dice-roller-parser": "^0.2.4"
+		"@3d-dice/dice-roller-parser": "^0.2.5"
 	}
 }
