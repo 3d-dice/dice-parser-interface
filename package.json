@@ -4,7 +4,7 @@
 		"name": "Frank Ali"
 	},
 	"description": "a Fantastic Dice Parser (FDP) that parses roll20 format strings using @3d-dice/dice_roller and interfaces with @3d-dice/dice-box",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"keywords": [
 		"dice",
 		"dice-box",
@@ -21,11 +21,7 @@
 		"pathfinder"
 	],
 	"license": "MIT",
-	"engines": {
-		"node": ">=14.15.0",
-		"npm": "6.14.x"
-	},
-	"homepage": "https://github.com/3d-dice/fdp#readme",
+	"homepage": "https://fantasticdice.games/",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/3d-dice/fdp"
