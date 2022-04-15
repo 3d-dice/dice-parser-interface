@@ -1,43 +1,53 @@
 {
-	"name": "@3d-dice/fdp",
-	"author": {
-		"name": "Frank Ali"
-	},
-	"description": "a Fantastic Dice Parser (FDP) that parses roll20 format strings using @3d-dice/dice_roller and interfaces with @3d-dice/dice-box",
-	"version": "0.1.4",
-	"keywords": [
-		"dice",
-		"dice-box",
-		"roller",
-		"roll",
-		"roll20",
-		"rpg",
-		"trpg",
-		"tabletop",
-		"dnd",
-		"d&d",
-		"dungeons",
-		"dragons",
-		"pathfinder"
-	],
-	"license": "MIT",
-	"engines": {
-		"node": ">=14.15.0",
-		"npm": "6.14.x"
-	},
-	"homepage": "https://github.com/3d-dice/fdp#readme",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/3d-dice/fdp"
-	},
-	"bugs": {
-		"url": "https://github.com/3d-dice/fdp/issues"
-	},
-	"files": [
-		"src"
-	],
-	"main": "./src/index",
-	"dependencies": {
-		"@3d-dice/dice-roller-parser": "^0.2.5"
-	}
+  "name": "@3d-dice/fdp",
+  "author": {
+    "name": "Frank Ali"
+  },
+  "description": "a Fantastic Dice Parser (FDP) that parses roll20 format strings using @3d-dice/dice_roller and interfaces with @3d-dice/dice-box",
+  "version": "0.1.4",
+  "keywords": [
+    "dice",
+    "dice-box",
+    "roller",
+    "roll",
+    "roll20",
+    "rpg",
+    "trpg",
+    "tabletop",
+    "dnd",
+    "d&d",
+    "dungeons",
+    "dragons",
+    "pathfinder"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.15.0",
+    "npm": "6.14.x"
+  },
+  "homepage": "https://github.com/3d-dice/fdp#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/3d-dice/fdp"
+  },
+  "bugs": {
+    "url": "https://github.com/3d-dice/fdp/issues"
+  },
+  "files": [
+    "src"
+  ],
+  "main": "./src/index",
+  "dependencies": {
+    "@3d-dice/dice-roller-parser": "^0.2.5",
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "babel-jest": "^27.5.1",
+    "ts-node": "^10.7.0"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
+  },
+  "scripts": {
+    "test": "jest --watch"
+  }
 }
