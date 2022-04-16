@@ -1,13 +1,20 @@
-import { DiceRoller } from "@3d-dice/dice-roller-parser";
+import { DiceRoller, RollBase, RootType } from "@3d-dice/dice-roller-parser";
+import { DieGroups } from "./types";
 
 let externalCount = 0;
 
 class ParserInterface {
+  rollParser: DiceRoller | undefined;
+  parsedNotation: RootType;
+  rollsAsFloats: number[];
+  dieGroups: DieGroups[];
+  finalResults?: RollBase;
+
   constructor(options = {}) {
     this.rollsAsFloats = [];
     this.dieGroups = [];
-    this.parsedNotation = null;
-    this.finalResults = null;
+    this.parsedNotation;
+    this.finalResults = undefined;
 
     this.initParser();
   }
@@ -26,11 +33,9 @@ class ParserInterface {
     });
   }
 
-  //TODO: Change this to accept a string or a Dicebox roll notation
-  parseNotation(notation) {
+  parseNotation(notation: string) {
     // clean out the gunk
     this.clear();
-
     // parse the raw string notation
     this.parsedNotation = this.rollParser.parse(notation);
 
@@ -62,13 +67,19 @@ class ParserInterface {
   }
 
   // make this static for use by other systems?
-  recursiveSearch(obj, searchKey, results = [], callback) {
-    const r = results;
+  recursiveSearch(
+    obj: RootType | { rolls: DiceBoxResult[] },
+    searchKey: string,
+    results?: unknown[],
+    callback?: unknown
+  ) {
+    const r = results ?? [];
     Object.keys(obj).forEach((key) => {
       const value = obj[key];
-      // if(key === searchKey && typeof value !== 'object'){
+
       if (key === searchKey) {
         r.push(value);
+
         if (callback && typeof callback === "function") {
           callback(obj);
         }
@@ -208,7 +219,7 @@ class ParserInterface {
     return rerolls;
   }
 
-  parseFinalResults(rollResults = []) {
+  parseFinalResults(rollResults: { rolls: DiceBoxResult[] }) {
     // do the final parse
     const rolls = this.recursiveSearch(rollResults, "rolls");
     rolls.forEach((roll) => {
@@ -225,7 +236,7 @@ class ParserInterface {
 
     // after parse clear out global variables
     externalCount = 0;
-    this.rollsAsFloats = [];
+    this.rollsAsFloats = undefined;
 
     return finalResults;
   }
