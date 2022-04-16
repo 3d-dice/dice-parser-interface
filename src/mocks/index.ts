@@ -1,6 +1,6 @@
 export const ReturnDiceBoxRoll = [
-  { groupId: 0, rollId: 1, sides: 20, theme: "#FFFFFF", value: 9 },
-  { groupId: 0, rollId: 1, sides: 20, theme: "#FFFFFF", value: 2 },
+  { groupId: 0, rollId: 0, sides: 20, theme: "#FFFFFF", value: 2 },
+  { groupId: 0, rollId: 1, sides: 20, theme: "#FFFFFF", value: 11 },
 ];
 
 export const ParseFinalResultsParameter = [
