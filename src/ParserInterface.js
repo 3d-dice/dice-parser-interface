@@ -3,7 +3,15 @@ import { DiceRoller } from "@3d-dice/dice-roller-parser";
 let externalCount = 0;
 
 class ParserInterface {
+  //TODO: Typescript
+  // rollParser: DiceRoller | undefined;
+  // parsedNotation: RootType;
+  // rollsAsFloats: number[];
+  // dieGroups: DieGroups[];
+  // finalResults?: RollTypeResult;
+
   constructor(options = {}) {
+    //TODO: Remove nulls for undefined
     this.rollsAsFloats = [];
     this.dieGroups = [];
     this.parsedNotation = null;
@@ -26,6 +34,8 @@ class ParserInterface {
     });
   }
 
+  //TODO: Typescript
+  //notationL string
   parseNotation(notation) {
     // clean out the gunk
     this.clear();
@@ -206,6 +216,8 @@ class ParserInterface {
     return rerolls;
   }
 
+  //TODO: Typescript
+  //rolls: [ { rolls: DiceBoxResult[] } ]
   updateFloats(rolls) {
     rolls.forEach((roll) => {
       return Object.entries(roll).forEach(([key, die]) => {
@@ -214,6 +226,12 @@ class ParserInterface {
       });
     });
   }
+
+  //TODO: Typescript
+  //rollResults: { rolls: DiceBoxResult[] }
+  //rolls: DiceBoxResult[]
+  //finalResults: RollTypeResult
+  //this.rollsAsFloats = undefined;
   parseFinalResults(rollResults = []) {
     // do the final parse
     const rolls = this.recursiveSearch(rollResults, "rolls");
