@@ -20,6 +20,21 @@ describe("Given new ParserInterface is called", () => {
   });
 });
 
+describe("Given new ParserInterface is called after rollsAsFloats has been updated", () => {
+  const parser = new ParserInterface();
+  parser.updateFloats([ReturnDiceBoxRoll]);
+
+  describe("when initParser runs AND updateFloats has been called", () => {
+    it("then has rollsAsFloats set to number[]", () => {
+      expect(parser.rollsAsFloats).toEqual([0.05, 0.5]);
+    });
+
+    it("then passes to DiceRoller rolls external count", () => {
+      expect(parser.rollParser.randFunction()).toEqual(0.05);
+    });
+  });
+});
+
 //TODO: Issue #2 & Issue #5
 describe("when updateFloats is called", () => {
   const parser = new ParserInterface();
