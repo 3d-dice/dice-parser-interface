@@ -111,7 +111,7 @@ class ParserInterface {
               return roll <= target;
             case "=":
             default:
-              return roll == target;
+              return roll === target;
           }
         };
         const rollIds = group.rolls.map((roll) => roll.rollId);
@@ -172,7 +172,6 @@ class ParserInterface {
               break;
             case "reroll":
               Object.entries(rollsCopy).forEach(([key, die]) => {
-                const max = die.sides;
                 if (
                   successTest(
                     die.value,
