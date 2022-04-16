@@ -3,7 +3,7 @@ import { DiceRoller } from "@3d-dice/dice-roller-parser";
 let externalCount = 0;
 
 class ParserInterface {
-  constructor(options = {}) {
+  constructor() {
     this.rollsAsFloats = [];
     this.dieGroups = [];
     this.parsedNotation = null;
@@ -103,7 +103,7 @@ class ParserInterface {
               return roll <= target;
             case "=":
             default:
-              return roll == target;
+              return roll === target;
           }
         };
         const rollIds = group.rolls.map((roll) => roll.rollId);
@@ -164,7 +164,6 @@ class ParserInterface {
               break;
             case "reroll":
               Object.entries(rollsCopy).forEach(([key, die]) => {
-                const max = die.sides;
                 if (
                   successTest(
                     die.value,
@@ -200,6 +199,8 @@ class ParserInterface {
                 }
               });
               break;
+            default:
+              console.warn("ParserInterface: mod.type no match");
           }
         }); // end mods forEach
       }
@@ -208,17 +209,20 @@ class ParserInterface {
     return rerolls;
   }
 
-  parseFinalResults(rollResults = []) {
-    console.log(rollResults);
-    // do the final parse
-    const rolls = this.recursiveSearch(rollResults, "rolls");
-
+  updateFloats(rolls) {
     rolls.forEach((roll) => {
       return Object.entries(roll).forEach(([key, die]) => {
         const sides = die.sides;
         this.rollsAsFloats.push((die.value - 1) / sides);
       });
     });
+  }
+
+  parseFinalResults(rollResults) {
+    // do the final parse
+    const rolls = this.recursiveSearch(rollResults, "rolls");
+
+    this.updateFloats(rolls);
 
     const finalResults = this.rollParser.rollParsed(this.parsedNotation);
 

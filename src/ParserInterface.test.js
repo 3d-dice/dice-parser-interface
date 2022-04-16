@@ -1,4 +1,10 @@
 import ParserInterface from "./ParserInterface";
+import {
+  ReturnParseNotation,
+  ParseFinalResultsParameter,
+  ReturnParseFinalResults,
+  ReturnDiceBoxRoll,
+} from "./mocks";
 
 describe("Given parseNotation is called with a roll notation string", () => {
   it("then runs the clear function to reset all values", () => {
@@ -17,21 +23,12 @@ describe("Given parseNotation is called with a roll notation string", () => {
     });
   });
 
-  const resultWithMods = [
-    {
-      mods: [
-        { type: "keep", highlow: "h", expr: { type: "number", value: 1 } },
-      ],
-      qty: 2,
-      sides: 10,
-    },
-  ];
   describe("when passed a complicated roll string", () => {
     const parser = new ParserInterface();
     const complicatedNotation = parser.parseNotation("2d10kh*2");
 
     it("then returns a parsed object with mods", () => {
-      expect(complicatedNotation).toEqual(resultWithMods);
+      expect(complicatedNotation).toEqual(ReturnParseNotation);
     });
   });
 
@@ -45,17 +42,40 @@ describe("Given parseNotation is called with a roll notation string", () => {
   });
 });
 
-describe("Given parseFinalResults is called with an array of results from Dicebox", () => {
+describe("when updateFloats is called", () => {
+  const parser = new ParserInterface();
+  parser.updateFloats(ReturnDiceBoxRoll);
+  expect(parser.rollsAsFloats).toEqual(1);
+});
+
+describe("Given parseFinalResults is called with an array of rolls from Dicebox", () => {
   it("then calls recursiveSearch", () => {
     const parser = new ParserInterface();
     const spy = jest.spyOn(parser, "recursiveSearch");
 
-    const diceboxResults = {
-      rolls: [{ groupId: 0, rollId: 1, sides: 20, theme: "#FFFFFF", value: 7 }],
-    };
+    parser.parseNotation("2d20"); //TODO: This shouldn't have to be called to run parseFinalResults
+    parser.parseFinalResults(ParseFinalResultsParameter);
 
-    parser.parseFinalResults(diceboxResults, "rolls");
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledWith(1);
+    expect(spy).toHaveBeenCalledTimes(6);
+    expect(spy).toHaveBeenCalledWith(ParseFinalResultsParameter, "rolls");
+  });
+
+  it("then resets rollsAsFloats", () => {
+    const parser = new ParserInterface();
+
+    parser.parseNotation("2d20");
+    parser.parseFinalResults(ParseFinalResultsParameter);
+
+    expect(parser.rollsAsFloats).toEqual([]);
+  });
+
+  it("then returns the parsed final results", () => {
+    const parser = new ParserInterface();
+
+    parser.updateFloats(ReturnDiceBoxRoll);
+    parser.parseNotation("2d20");
+    const result = parser.parseFinalResults({ rolls: ReturnDiceBoxRoll });
+
+    expect(result).toEqual(ReturnParseFinalResults);
   });
 });

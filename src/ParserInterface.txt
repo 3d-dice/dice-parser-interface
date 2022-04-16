@@ -1,4 +1,9 @@
-import { DiceRoller, RollBase, RootType } from "@3d-dice/dice-roller-parser";
+import {
+  DiceRoller,
+  RollBase,
+  RootType,
+  RollTypeResult,
+} from "@3d-dice/dice-roller-parser";
 import { DieGroups, DiceBoxResult } from "./types";
 
 let externalCount = 0;
@@ -8,7 +13,7 @@ class ParserInterface {
   parsedNotation: RootType;
   rollsAsFloats: number[];
   dieGroups: DieGroups[];
-  finalResults?: RollBase;
+  finalResults?: RollTypeResult;
 
   constructor(options = {}) {
     this.rollsAsFloats = [];
@@ -219,6 +224,15 @@ class ParserInterface {
     return rerolls;
   }
 
+  updateFloats(rolls: DiceBoxResult[]) {
+    rolls.forEach((roll: DiceBoxResult) => {
+      return Object.entries(roll).forEach(([key, die]) => {
+        const sides = die.sides;
+        this.rollsAsFloats.push((die.value - 1) / sides);
+      });
+    });
+  }
+
   parseFinalResults(rollResults: { rolls: DiceBoxResult[] }) {
     // do the final parse
     const rolls = this.recursiveSearch(rollResults, "rolls");
@@ -229,7 +243,9 @@ class ParserInterface {
       });
     });
 
-    const finalResults = this.rollParser.rollParsed(this.parsedNotation);
+    const finalResults: RollTypeResult = this.rollParser.rollParsed(
+      this.parsedNotation
+    );
 
     // save a reference to the final results
     this.finalResults = finalResults;
