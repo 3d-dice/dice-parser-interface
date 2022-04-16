@@ -1,12 +1,7 @@
 import ParserInterface from "./ParserInterface";
-import {
-  ReturnParseNotation,
-  ParseFinalResultsParameter,
-  ReturnParseFinalResults,
-  ReturnDiceBoxRoll,
-} from "./mocks";
+import { ReturnDiceBoxRoll } from "./mocks";
 
-describe("Given new ParserInterface is called", () => {
+describe("Given new ParserInterface is created", () => {
   describe("when initParser runs", () => {
     const parser = new ParserInterface();
 
@@ -20,7 +15,7 @@ describe("Given new ParserInterface is called", () => {
   });
 });
 
-describe("Given new ParserInterface is called after rollsAsFloats has been updated", () => {
+describe("Given new ParserInterface is created after rollsAsFloats has been updated", () => {
   const parser = new ParserInterface();
   parser.updateFloats([ReturnDiceBoxRoll]);
 
@@ -35,11 +30,32 @@ describe("Given new ParserInterface is called after rollsAsFloats has been updat
   });
 });
 
-//TODO: Issue #2 & Issue #5
-describe("when updateFloats is called", () => {
+describe("Given new ParserInterface has been created", () => {
   const parser = new ParserInterface();
-  parser.updateFloats([ReturnDiceBoxRoll]);
-  it("then updates rollsAsFloats", () => {
-    expect(parser.rollsAsFloats).toEqual([0.05, 0.5]);
+  parser.rollsAsFloats = [1];
+  parser.dieGroups = [2];
+  parser.parsedNotation = {};
+  parser.finalResults = [2];
+  parser.clear();
+  it("then clear is called the global variables are reset", () => {
+    expect(parser.rollsAsFloats).toEqual([]);
+    expect(parser.dieGroups).toEqual([]);
+    expect(parser.parsedNotation).toEqual(null);
+    expect(parser.finalResults).toEqual(null);
+  });
+});
+
+describe("Given new ParserInterface was created", () => {
+  const parser = new ParserInterface();
+
+  describe("when incrementId is passed a parameter returns a string", () => {
+    const result = parser.incrementId(9);
+    expect(typeof result).toEqual("string");
+  });
+
+  describe("when incrementId is passed a parameter it is turned into a string", () => {
+    const result = parser.incrementId(9.5);
+    expect(typeof result).toEqual("string");
+    expect(result).toEqual("9.6");
   });
 });

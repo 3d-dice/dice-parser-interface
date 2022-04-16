@@ -1,24 +1,27 @@
+/** Return from Dice Box */
 export const ReturnDiceBoxRoll = [
   { groupId: 0, rollId: 0, sides: 20, theme: "#FFFFFF", value: 2 },
   { groupId: 0, rollId: 1, sides: 20, theme: "#FFFFFF", value: 11 },
 ];
 
-export const ParseFinalResultsParameter = [
-  {
-    groupId: 0,
-    rollId: 0,
-    sides: 20,
-    theme: "#FFFFFF",
-    value: 2,
-  },
-  {
-    groupId: 0,
-    rollId: 1,
-    sides: 20,
-    theme: "#FFFFFF",
-    value: 4,
-  },
-];
+export const ParseFinalResultsParameter = {
+  rolls: [
+    {
+      groupId: 0,
+      rollId: 0,
+      sides: 20,
+      theme: "#FFFFFF",
+      value: 2,
+    },
+    {
+      groupId: 0,
+      rollId: 1,
+      sides: 20,
+      theme: "#FFFFFF",
+      value: 4,
+    },
+  ],
+};
 
 export const ReturnParseNotation = [
   {
@@ -85,4 +88,20 @@ export const ReturnParseFinalResults = {
   type: "die",
   valid: true,
   value: 13,
+};
+
+/** Return from Dice Roller Parser */
+export const ReturnRollParserParse = {
+  count: {
+    type: "number",
+    value: 2,
+  },
+  die: {
+    type: "number",
+    value: 20,
+  },
+  label: "",
+  mods: [],
+  root: true,
+  type: "die",
 };

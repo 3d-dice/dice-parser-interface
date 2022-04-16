@@ -13,7 +13,7 @@ describe("Given parseFinalResults is called with an array of rolls from Dicebox"
     parser.parseNotation("2d20"); //TODO: #Issue #1
     parser.parseFinalResults(ParseFinalResultsParameter);
 
-    expect(spy).toHaveBeenCalledTimes(6);
+    expect(spy).toHaveBeenCalledTimes(4);
     expect(spy).toHaveBeenCalledWith(ParseFinalResultsParameter, "rolls");
   });
 

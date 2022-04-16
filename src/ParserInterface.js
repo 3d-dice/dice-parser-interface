@@ -34,6 +34,14 @@ class ParserInterface {
     });
   }
 
+  updateDieGroups(obj) {
+    this.dieGroups.push({
+      qty: obj.count.value,
+      sides: obj.die.value,
+      mods: obj.mods,
+    });
+  }
+
   //TODO: Typescript
   //notationL string
   parseNotation(notation) {
@@ -43,13 +51,7 @@ class ParserInterface {
     this.parsedNotation = this.rollParser.parse(notation);
 
     // create a new object of just dice needed for rolling
-    const findDie = (obj) => {
-      this.dieGroups.push({
-        qty: obj.count.value,
-        sides: obj.die.value,
-        mods: obj.mods,
-      });
-    };
+    const findDie = (obj) => this.updateDieGroups(obj);
 
     this.recursiveSearch(this.parsedNotation, "die", [], findDie);
 
@@ -70,13 +72,17 @@ class ParserInterface {
   }
 
   // make this static for use by other systems?
+  //TODO: Typescript
+  //obj: { rolls: DiceBoxResult[] }
   recursiveSearch(obj, searchKey, results = [], callback) {
     const r = results;
+
     Object.keys(obj).forEach((key) => {
       const value = obj[key];
-      // if(key === searchKey && typeof value !== 'object'){
+
       if (key === searchKey) {
         r.push(value);
+
         if (callback && typeof callback === "function") {
           callback(obj);
         }
@@ -84,8 +90,10 @@ class ParserInterface {
         this.recursiveSearch(value, searchKey, r, callback);
       }
     });
+
     return r;
   }
+
   incrementId(key) {
     key = key.toString();
     let splitKey = key.split(".");
