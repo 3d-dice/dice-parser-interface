@@ -35,12 +35,12 @@ export const ReturnRolls = [
     failures: 0,
     matched: false,
     order: 0,
-    roll: 9,
+    roll: 2,
     success: null,
     successes: 0,
     type: "roll",
     valid: true,
-    value: 9,
+    value: 2,
   },
   {
     critical: null,
@@ -48,12 +48,12 @@ export const ReturnRolls = [
     failures: 0,
     matched: false,
     order: 1,
-    roll: 2,
+    roll: 11,
     success: null,
     successes: 0,
     type: "roll",
     valid: true,
-    value: 2,
+    value: 11,
   },
 ];
 
@@ -84,5 +84,5 @@ export const ReturnParseFinalResults = {
   successes: 0,
   type: "die",
   valid: true,
-  value: 11,
+  value: 13,
 };

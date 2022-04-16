@@ -3,7 +3,7 @@ import { DiceRoller } from "@3d-dice/dice-roller-parser";
 let externalCount = 0;
 
 class ParserInterface {
-  constructor() {
+  constructor(options = {}) {
     this.rollsAsFloats = [];
     this.dieGroups = [];
     this.parsedNotation = null;
@@ -18,19 +18,17 @@ class ParserInterface {
       if (rolls.length > 0) {
         return rolls[externalCount++];
       } else {
-        console.warn(
-          "No result was passed to the dice-roller-parser. Using fallback Math.random"
-        );
+        // console.warn(
+        //   "No result was passed to the dice-roller-parser. Using fallback Math.random"
+        // );
         return Math.random();
       }
     });
   }
 
-  //TODO: Change this to accept a string or a Dicebox roll notation
   parseNotation(notation) {
     // clean out the gunk
     this.clear();
-
     // parse the raw string notation
     this.parsedNotation = this.rollParser.parse(notation);
 
@@ -103,7 +101,7 @@ class ParserInterface {
               return roll <= target;
             case "=":
             default:
-              return roll === target;
+              return roll == target;
           }
         };
         const rollIds = group.rolls.map((roll) => roll.rollId);
@@ -164,6 +162,7 @@ class ParserInterface {
               break;
             case "reroll":
               Object.entries(rollsCopy).forEach(([key, die]) => {
+                const max = die.sides;
                 if (
                   successTest(
                     die.value,
@@ -199,8 +198,6 @@ class ParserInterface {
                 }
               });
               break;
-            default:
-              console.warn("ParserInterface: mod.type no match");
           }
         }); // end mods forEach
       }
@@ -217,8 +214,7 @@ class ParserInterface {
       });
     });
   }
-
-  parseFinalResults(rollResults) {
+  parseFinalResults(rollResults = []) {
     // do the final parse
     const rolls = this.recursiveSearch(rollResults, "rolls");
 
