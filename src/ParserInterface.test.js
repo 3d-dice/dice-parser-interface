@@ -44,3 +44,18 @@ describe("Given parseNotation is called with a roll notation string", () => {
     });
   });
 });
+
+describe("Given parseFinalResults is called with an array of results from Dicebox", () => {
+  it("then calls recursiveSearch", () => {
+    const parser = new ParserInterface();
+    const spy = jest.spyOn(parser, "recursiveSearch");
+
+    const diceboxResults = {
+      rolls: [{ groupId: 0, rollId: 1, sides: 20, theme: "#FFFFFF", value: 7 }],
+    };
+
+    parser.parseFinalResults(diceboxResults, "rolls");
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith(1);
+  });
+});

@@ -209,8 +209,10 @@ class ParserInterface {
   }
 
   parseFinalResults(rollResults = []) {
+    console.log(rollResults);
     // do the final parse
     const rolls = this.recursiveSearch(rollResults, "rolls");
+
     rolls.forEach((roll) => {
       return Object.entries(roll).forEach(([key, die]) => {
         const sides = die.sides;

@@ -1,5 +1,5 @@
 import { DiceRoller, RollBase, RootType } from "@3d-dice/dice-roller-parser";
-import { DieGroups } from "./types";
+import { DieGroups, DiceBoxResult } from "./types";
 
 let externalCount = 0;
 
