@@ -10,7 +10,7 @@ describe("Given new ParserInterface is created", () => {
     });
 
     it("then passes Math.Random to dice roller", () => {
-      expect(typeof parser.rollParser.randFunction).toEqual("function");
+      expect(typeof parser.rollParser?.randFunction).toEqual("function");
     });
   });
 });
@@ -25,7 +25,7 @@ describe("Given new ParserInterface is created after rollsAsFloats has been upda
     });
 
     it("then passes to DiceRoller rolls external count", () => {
-      expect(parser.rollParser.randFunction()).toEqual(0.05);
+      expect(parser.rollParser?.randFunction()).toEqual(0.05);
     });
   });
 });
@@ -33,14 +33,14 @@ describe("Given new ParserInterface is created after rollsAsFloats has been upda
 describe("Given new ParserInterface has been created", () => {
   const parser = new ParserInterface();
   parser.rollsAsFloats = [1];
-  parser.dieGroups = [2];
-  parser.parsedNotation = {};
-  parser.finalResults = [2];
+  parser.dieGroups = [{ sides: 20, qty: 1, mods: [] }];
+  parser.parsedNotation = { root: true, type: "die" };
+  //parser.finalResults = ReturnParseFinalResults;
   parser.clear();
   it("then clear is called the global variables are reset", () => {
     expect(parser.rollsAsFloats).toEqual([]);
     expect(parser.dieGroups).toEqual([]);
-    expect(parser.parsedNotation).toEqual(null);
-    expect(parser.finalResults).toEqual(null);
+    expect(parser.parsedNotation).toEqual(undefined);
+    expect(parser.finalResults).toEqual(undefined);
   });
 });

@@ -1,4 +1,3 @@
-//import { ReturnDiceBoxRoll } from "../mocks";
 import ParserInterface from "../ParserInterface";
 import { ReturnRollParserParse } from "../mocks";
 
@@ -50,7 +49,7 @@ describe("Given parseNotation is called with a roll notation string", () => {
       //count & die are legit
       //It also runs on mods because array typeof is object
       //TODO: Issue #9
-      expect(spy).toHaveBeenCalledTimes(4);
+      expect(spy).toHaveBeenCalledTimes(3);
       expect(spy.mock.calls).toEqual([
         [
           {
@@ -65,7 +64,6 @@ describe("Given parseNotation is called with a roll notation string", () => {
         ],
         [{ type: "number", value: 2 }, "value", [2, 20], undefined],
         [{ type: "number", value: 20 }, "value", [2, 20], undefined],
-        [[], "value", [2, 20], undefined],
       ]);
     });
   });

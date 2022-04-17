@@ -4,11 +4,12 @@ import {
   RollBase,
   DiceRollResult,
 } from "@3d-dice/dice-roller-parser";
+import { KeepDropModType, ReRollMod } from "../../../dice-roller-parser/";
 
 export type DieGroups = {
   qty: number;
   sides: number;
-  mods: unknown[];
+  mods?: (ReRollMod | KeepDropModType)[];
 };
 
 export type ParseFinalResults = {
