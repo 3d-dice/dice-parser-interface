@@ -1,6 +1,6 @@
 import ParserInterface from "../ParserInterface";
 import {
-  ParseFinalResultsParameter,
+  ParameterParseFinalResults,
   ReturnParseFinalResults,
   ReturnDiceBoxRoll,
 } from "../mocks";
@@ -11,17 +11,17 @@ describe("Given parseFinalResults is called with an array of rolls from Dicebox"
     const spy = jest.spyOn(parser, "recursiveSearch");
 
     parser.parseNotation("2d20"); //TODO: #Issue #1
-    parser.parseFinalResults(ParseFinalResultsParameter);
+    parser.parseFinalResults(ParameterParseFinalResults);
 
     expect(spy).toHaveBeenCalledTimes(4);
-    expect(spy).toHaveBeenCalledWith(ParseFinalResultsParameter, "rolls");
+    expect(spy).toHaveBeenCalledWith(ParameterParseFinalResults, "rolls");
   });
 
   it("then resets rollsAsFloats", () => {
     const parser = new ParserInterface();
 
     parser.parseNotation("2d20");
-    parser.parseFinalResults(ParseFinalResultsParameter);
+    parser.parseFinalResults(ParameterParseFinalResults);
 
     expect(parser.rollsAsFloats).toEqual([]);
   });

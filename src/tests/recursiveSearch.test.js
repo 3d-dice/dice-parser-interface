@@ -1,14 +1,14 @@
 //import { ReturnDiceBoxRoll } from "../mocks";
 import ParserInterface from "../ParserInterface";
-import { ParseFinalResultsParameter, ReturnRollParserParse } from "../mocks";
+import { ParameterParseFinalResults, ReturnRollParserParse } from "../mocks";
 
 describe("Given parseNotation is called with a roll notation string", () => {
   const parser = new ParserInterface();
   describe("when recursiveSearch is called with an parseFinalResults object and a search string", () => {
-    const search = parser.recursiveSearch(ParseFinalResultsParameter, "rolls");
+    const search = parser.recursiveSearch(ParameterParseFinalResults, "rolls");
 
     it("then returns an array with the key which matches the search string", () => {
-      expect(search).toEqual([ParseFinalResultsParameter.rolls]);
+      expect(search).toEqual([ParameterParseFinalResults.rolls]);
     });
   });
 

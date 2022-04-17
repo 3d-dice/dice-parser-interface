@@ -4,7 +4,7 @@ export const ReturnDiceBoxRoll = [
   { groupId: 0, rollId: 1, sides: 20, theme: "#FFFFFF", value: 11 },
 ];
 
-export const ParseFinalResultsParameter = {
+export const ParameterParseFinalResults = {
   rolls: [
     {
       groupId: 0,
