@@ -1,1 +1,1 @@
-export { default } from './ParserInterface'
+export { default } from "./ParserInterface";
