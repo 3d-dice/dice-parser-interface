@@ -109,7 +109,7 @@ class ParserInterface {
         if (callback && typeof callback === "function") {
           callback(obj);
         }
-      } else if (value && typeof value === "object" && !Array.isArray(value)) {
+      } else if (value && typeof value === "object") {
         this.recursiveSearch(value, searchKey, r, callback);
       }
     });
