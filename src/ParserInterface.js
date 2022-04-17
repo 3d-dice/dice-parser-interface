@@ -224,26 +224,23 @@ class ParserInterface {
   }
 
   //TODO: Typescript
-  //rolls: [ { rolls: DiceBoxResult[] } ]
+  //rolls: DiceBoxResult[]
   updateFloats(rolls) {
     rolls.forEach((roll) => {
-      return Object.entries(roll).forEach(([key, die]) => {
-        const sides = die.sides;
-        this.rollsAsFloats.push((die.value - 1) / sides);
-      });
+      this.rollsAsFloats.push((roll.value - 1) / roll.sides);
     });
   }
 
   //TODO: Typescript
-  //rollResults: { rolls: DiceBoxResult[] }
+  //rollResults: DiceBoxResult[]
   //rolls: DiceBoxResult[]
   //finalResults: RollTypeResult
   //this.rollsAsFloats = undefined;
   parseFinalResults(rollResults = []) {
     // do the final parse
-    const rolls = this.recursiveSearch(rollResults, "rolls");
+    //const rolls = this.recursiveSearch(rollResults, "rolls");
 
-    this.updateFloats(rolls);
+    this.updateFloats(rollResults);
 
     const finalResults = this.rollParser.rollParsed(this.parsedNotation);
 

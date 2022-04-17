@@ -6,17 +6,6 @@ import {
 } from "../mocks";
 
 describe("Given parseFinalResults is called with an array of rolls from Dicebox", () => {
-  it("then calls recursiveSearch", () => {
-    const parser = new ParserInterface();
-    const spy = jest.spyOn(parser, "recursiveSearch");
-
-    parser.parseNotation("2d20"); //TODO: #Issue #1
-    parser.parseFinalResults(ParameterParseFinalResults);
-
-    expect(spy).toHaveBeenCalledTimes(4);
-    expect(spy).toHaveBeenCalledWith(ParameterParseFinalResults, "rolls");
-  });
-
   it("then resets rollsAsFloats", () => {
     const parser = new ParserInterface();
 
@@ -31,7 +20,7 @@ describe("Given parseFinalResults is called with an array of rolls from Dicebox"
 
     parser.updateFloats(ReturnDiceBoxRoll);
     parser.parseNotation("2d20");
-    const result = parser.parseFinalResults({ rolls: ReturnDiceBoxRoll });
+    const result = parser.parseFinalResults(ReturnDiceBoxRoll);
 
     expect(result).toEqual(ReturnParseFinalResults);
   });

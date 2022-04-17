@@ -17,7 +17,7 @@ describe("Given new ParserInterface is created", () => {
 
 describe("Given new ParserInterface is created after rollsAsFloats has been updated", () => {
   const parser = new ParserInterface();
-  parser.updateFloats([ReturnDiceBoxRoll]);
+  parser.updateFloats(ReturnDiceBoxRoll);
 
   describe("when initParser runs AND updateFloats has been called", () => {
     it("then has rollsAsFloats set to number[]", () => {

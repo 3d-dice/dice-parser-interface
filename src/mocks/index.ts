@@ -4,24 +4,22 @@ export const ReturnDiceBoxRoll = [
   { groupId: 0, rollId: 1, sides: 20, theme: "#FFFFFF", value: 11 },
 ];
 
-export const ParameterParseFinalResults = {
-  rolls: [
-    {
-      groupId: 0,
-      rollId: 0,
-      sides: 20,
-      theme: "#FFFFFF",
-      value: 2,
-    },
-    {
-      groupId: 0,
-      rollId: 1,
-      sides: 20,
-      theme: "#FFFFFF",
-      value: 4,
-    },
-  ],
-};
+export const ParameterParseFinalResults = [
+  {
+    groupId: 0,
+    rollId: 0,
+    sides: 20,
+    theme: "#FFFFFF",
+    value: 2,
+  },
+  {
+    groupId: 0,
+    rollId: 1,
+    sides: 20,
+    theme: "#FFFFFF",
+    value: 4,
+  },
+];
 
 export const ReturnParseNotation = [
   {
