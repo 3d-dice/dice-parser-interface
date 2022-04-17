@@ -101,7 +101,7 @@ class ParserInterface {
     const r = results;
 
     Object.keys(obj).forEach((key) => {
-      const value: any = obj[key];
+      const value = obj[key];
 
       if (key === searchKey) {
         r.push(value);
