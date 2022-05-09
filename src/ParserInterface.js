@@ -8,9 +8,12 @@ class ParserInterface {
 		this.dieGroups = []
 		this.parsedNotation = null
 		this.finalResults = null
-
+    this.targetRollsCritSuccess = options?.targetRollsCritSuccess || options?.targetRollsCrit || false,
+    this.targetRollsCritFailure = options?.targetRollsCritFailure || options?.targetRollsCrit || false,
 		this.initParser()
 	}
+
+	//TODO: toggle targetRollsCritSuccess and targetRollsCritFailure externally
 
 	// Set up the parser with our custom random function
 	initParser(){
@@ -192,6 +195,23 @@ class ParserInterface {
 		return rerolls
 	}
 
+  handleTargetCritSuccess(finalResults = []){
+    finalResults.rolls.forEach(roll => {
+      if(roll.successes >= 1 && roll.critical === "success") {
+        roll.successes += 1
+        finalResults.value += 1
+      }
+    })
+	}
+  handleTargetCritFailure(finalResults = []){
+    finalResults.rolls.forEach(roll => {
+      if(roll.failures >= 1 && roll.critical === "failure"){
+        roll.failures += 1
+        finalResults.value -=1
+      }
+    })
+	}
+
 	parseFinalResults(rollResults = []) {
 		// do the final parse
 		let allRolls = this.recursiveSearch(rollResults, "rolls")
@@ -215,6 +235,16 @@ class ParserInterface {
 		})
 
 		const finalResults = this.rollParser.rollParsed(this.parsedNotation)
+
+		// if targets can crit success then give them another success
+		if(this.targetRollsCritSuccess && finalResults.success !== null){
+      this.handleTargetCritSuccess(finalResults)
+    }
+
+		// if targets can crit fail then give them another failure
+    if(this.targetRollsCritFailure && finalResults.success !== null){
+      this.handleTargetCritFailure(finalResults)
+    }
 
 		// save a reference to the final results
 		this.finalResults = finalResults
