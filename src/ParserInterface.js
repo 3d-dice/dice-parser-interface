@@ -193,18 +193,23 @@ class ParserInterface {
 	}
 
 	parseFinalResults(rollResults = []) {
-
 		// do the final parse
-		const rolls = this.recursiveSearch(rollResults,'rolls')
+		let allRolls = this.recursiveSearch(rollResults, "rolls")
+		const rolls = allRolls.length? allRolls : [rollResults]
 		rolls.forEach(roll => {
 			return Object.entries(roll).forEach(([key, die]) => {
-        const sides = die.sides
-				if(sides){
-          if(sides === 'fate') {
-            this.rollsAsFloats.push((die.value + 2) * .25)
-          } else {
-            this.rollsAsFloats.push((die.value - 1)/sides)
-          }
+				try{
+					const sides = die.sides
+					if(sides){
+						if(sides === 'fate') {
+							this.rollsAsFloats.push((die.value + 2) * .25)
+						} else {
+							this.rollsAsFloats.push((die.value - 1)/sides)
+						}
+					}
+				} catch {
+					console.error(`This object is not a properly formatted roll object.`, die)
+					throw new Error(`Unable to parse final results`)
 				}
 			})
 		})
