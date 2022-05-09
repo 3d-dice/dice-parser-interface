@@ -120,7 +120,7 @@ class ParserInterface {
 							// for compound: the additional rolls for each dice are added together as a single "roll" (calculated by the parser)
 							Object.entries(rollsCopy).forEach(([key, die]) => {
 								const max = die.sides
-								const target = mod.target?.die?.value || max
+								const target = mod.target?.value?.value || max
 								const op = mod.target?.mod || '>'
 								// TODO: pass back die theme
 								// TODO: destructure die object and replace rollId - keep all other properties as there may be more in the future (such as scale)
