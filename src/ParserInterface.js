@@ -28,13 +28,16 @@ class ParserInterface {
 		// clean out the gunk
 		this.clear()
 		// parse the raw string notation
+		notation = notation.replace(/d00/,'d%') // convert d00 to d%
 		this.parsedNotation = this.rollParser.parse(notation)
 
 		// create a new object of just dice needed for rolling
 		const findDie = (obj) => {
+			// capture 'fate' die.type
+			const sides = obj.die.value || obj.die.type
 			this.dieGroups.push({
 				qty: obj.count.value,
-				sides: obj.die.value,
+				sides,
 				mods: obj.mods
 			})
 		}
@@ -119,6 +122,8 @@ class ParserInterface {
 								const max = die.sides
 								const target = mod.target?.die?.value || max
 								const op = mod.target?.mod || '>'
+								// TODO: pass back die theme
+								// TODO: destructure die object and replace rollId - keep all other properties as there may be more in the future (such as scale)
 								if(successTest(die.value, op, target) && !alreadyReRolled(die.rollId)) {
 									rerolls.push({
 										groupId,
@@ -193,8 +198,14 @@ class ParserInterface {
 		const rolls = this.recursiveSearch(rollResults,'rolls')
 		rolls.forEach(roll => {
 			return Object.entries(roll).forEach(([key, die]) => {
-				const sides = die.sides
-				this.rollsAsFloats.push((die.value - 1)/sides)
+        const sides = die.sides
+				if(sides){
+          if(sides === 'fate') {
+            this.rollsAsFloats.push((die.value + 2) * .25)
+          } else {
+            this.rollsAsFloats.push((die.value - 1)/sides)
+          }
+				}
 			})
 		})
 
