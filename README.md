@@ -2,6 +2,8 @@
 
 This module simply provides an interface between [@3d-dice/dice-roller-parser](https://github.com/3d-dice/dice-roller-parser) and [@3d-dice/dice-box](https://github.com/3d-dice/dice-box). Since `dice-roller-parser` is a fork of another person's module, I did not want to include this interface in that package.
 
+<sub>`FDP` (Fantastic Dice Parcer) has been renamed to `Dice Parser Interface` for symantics. The `@3d-dice/fdp` npm module has been depricated</sub>
+
 ## What it does
 This module allows for more advanced rolls with `dice-box`. All the rolls supported are documented at [Roll20 Dice Specification](https://roll20.zendesk.com/hc/en-us/articles/360037773133-Dice-Reference#DiceReference-Roll20DiceSpecification)
 
