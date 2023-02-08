@@ -219,7 +219,12 @@ class ParserInterface {
 		rolls.forEach(roll => {
 			return Object.entries(roll).forEach(([key, die]) => {
 				try{
-					const sides = die.sides
+					let sides = die.sides
+					// convert string names back to intigers needed by DRP
+					const diceNotation = /[dD]\d+/i
+					if(typeof sides === "string" && sides.match(diceNotation)){
+						sides = parseInt(die.sides.substring(1))
+					}
 					if(sides){
 						if(sides === 'fate') {
 							this.rollsAsFloats.push((die.value + 2) * .25)
